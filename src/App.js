@@ -1,9 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import { Component } from "react";
 import Button from '@mui/material/Button';
-// import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+// import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import TranslateIcon from '@mui/icons-material/Translate';
@@ -14,6 +13,7 @@ import { styled } from '@mui/material/styles';
 import Email from './Email';
 import Reword from './Reword';
 import Translate from './Translate';
+import { Paper } from '@mui/material';
 
 
 const Div = styled('div')(({ theme }) => ({
@@ -33,13 +33,13 @@ class App extends Component {
     },
     {
       name: "Translate",
-      link: <Reword />,
+      link: <Translate />,
       icon: <TranslateIcon />,
       isOn: false,
     },
     {
       name: "Reword",
-      link: <Translate />,
+      link: <Reword />,
       icon: <EditIcon />,
       isOn: false,
     }
@@ -69,14 +69,7 @@ class App extends Component {
 
   AppSelected = (event) => {
     const selected = this.ListOfApps.filter((app) => { return app.name === event.target.id });
-
-    const ActiveApp = ReactDOM.createRoot(document.getElementById('ActiveApp'));
-    ActiveApp.render(
-      <React.StrictMode>
-        {selected["0"].link}
-      </React.StrictMode>
-    );
-    // ReactDOM.render(, document.getElementById("ActiveApp"));
+    ReactDOM.render(selected["0"].link, document.getElementById("ActiveApp"));
   };
 
 
@@ -96,16 +89,15 @@ class App extends Component {
 
 
           {/* App active */}
-          <Box component="div" sx={{ 
+          <div component="div" sx={{ 
             p: 2.5,
-            border: "1px solid silver",
             borderRadius: ".50rem",
             }}
           id="ActiveApp">
 
             <Div>{"✅ Please select an App to get started ..."}</Div>
             
-          </Box>
+          </div>
         </Stack>
       </Container>
     )

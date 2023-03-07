@@ -11,22 +11,9 @@ class Email extends Component {
         data: [],
     };
 
-    // Code is invoked after the component is mounted/inserted into the DOM tree.
-    componentDidMount() {
-        const url =
-        'https://en.wikipedia.org/w/api.php?action=opensearch&search=Seona+Dancing&format=json&origin=*'
-
-        fetch(url)
-        .then((result) => result.json())
-        .then((result) => {
-            this.setState({
-                data: result,
-            })
-        })
-    };
-
     ComposeEmail = () => {
-        console.log("v");
+        const EmailRequest = document.getElementById("EmailRequest");
+        console.log(EmailRequest.value);
     };
 
     render() {
@@ -34,7 +21,7 @@ class Email extends Component {
             <Stack spacing={4}>
                 <div>
                     <Typography variant="subtitle1 h2" component="h2" gutterBottom>
-                        Email App
+                        Email App ✉️
                     </Typography>
 
                     <Typography variant="body1" component="h2" gutterBottom>
@@ -43,7 +30,7 @@ class Email extends Component {
                     </Typography>
                 </div>
                 <TextField
-                    id="filled-multiline-static"
+                    id="EmailRequest"
                     label="Write your message"
                     fullWidth multiline
                     rows={6}
