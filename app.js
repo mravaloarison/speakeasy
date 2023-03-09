@@ -11,7 +11,7 @@ const openai = new OpenAIApi(configuration);
     
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: "write same code react and django and tell which one is faster",
+      prompt: "say something funny",
       max_tokens: 2048,
       temperature: 0,
     });

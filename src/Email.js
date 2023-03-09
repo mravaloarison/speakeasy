@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component } from 'react';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -12,9 +12,19 @@ class Email extends Component {
     };
 
     ComposeEmail = () => {
-        const EmailRequest = document.getElementById("EmailRequest");
-        console.log(EmailRequest.value);
+        const emailPrompt = document.getElementById("emailPrompt").value;
+        const formData = new FormData();
+        formData.append("email_prompt", emailPrompt);
+      
+        fetch("http://127.0.0.1:5000/email", {
+            method: "POST",
+            body: formData,
+        })
+        .then(result => result.json())
+        .then(data => console.log(data))
+        .catch(err => console.log(err))
     };
+      
 
     render() {
         return (
@@ -30,7 +40,7 @@ class Email extends Component {
                     </Typography>
                 </div>
                 <TextField
-                    id="EmailRequest"
+                    id="emailPrompt"
                     label="Write your message"
                     fullWidth multiline
                     rows={6}
@@ -40,6 +50,8 @@ class Email extends Component {
                 <div>
                     <Button variant="contained" endIcon={<SendIcon />} onClick={this.ComposeEmail}>Compose</Button>
                 </div>
+
+                <div>{this.state.data}</div>
 
             </Stack>
         )
