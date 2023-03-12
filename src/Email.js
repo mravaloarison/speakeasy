@@ -1,30 +1,70 @@
 import { Component } from 'react';
+import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import SendIcon from '@mui/icons-material/Send';
+import { gsap } from 'gsap';
+import { TextPlugin } from "gsap/TextPlugin";
+
+
+gsap.registerPlugin(TextPlugin);
 
 
 class Email extends Component {
     state = {
         data: [],
+        loading: false,
+    };
+    
+    
+    handleClick = () => {
+        this.setState({
+            loading: true,
+        }, this.SendIt);
     };
 
-    ComposeEmail = () => {
+    
+    SendIt = () => {
+
         const emailPrompt = document.getElementById("emailPrompt").value;
         const formData = new FormData();
         formData.append("email_prompt", emailPrompt);
       
-        fetch("http://127.0.0.1:5000/email", {
+        fetch("http://127.0.0.1:5000/generate-email", {
             method: "POST",
             body: formData,
         })
         .then(result => result.json())
-        .then(data => console.log(data))
+        .then(response => {
+            const filteredResponse = response.data.email_content.slice(2);
+            console.log(filteredResponse.split("\n").slice(2).join("\n"));
+            const textArray = filteredResponse.split("\n").slice(2);
+
+            let count = 0;
+            textArray.forEach(e => {
+                document.querySelector(".text").innerHTML += `<p class="text-${count}"></p>`;
+                count++;
+            });
+
+            let masterTl = gsap.timeline();
+            for (let i = 0; i < count; i++) {
+                let tl = gsap.timeline();
+                tl.to(".text-"+i, {
+                    text: textArray[i],
+                    duration: textArray[i].length / 30
+                });
+
+                masterTl.add(tl);
+            }
+
+            this.setState({
+                loading: false,
+            })
+        })
         .catch(err => console.log(err))
-    };
-      
+    }
 
     render() {
         return (
@@ -41,6 +81,7 @@ class Email extends Component {
                 </div>
                 <TextField
                     id="emailPrompt"
+                    className='emailPrompt'
                     label="Write your message"
                     fullWidth multiline
                     rows={6}
@@ -48,10 +89,20 @@ class Email extends Component {
                 />
 
                 <div>
-                    <Button variant="contained" endIcon={<SendIcon />} onClick={this.ComposeEmail}>Compose</Button>
+                    {/* <Button variant="contained" endIcon={<SendIcon />} onClick={this.ComposeEmail}>Compose</Button> */}
+                    <LoadingButton
+                        size="small"
+                        onClick={this.handleClick}
+                        endIcon={<SendIcon />}
+                        loading={this.state.loading}
+                        loadingPosition="end"
+                        variant="contained"
+                    >
+                        <span>Compose</span>
+                    </LoadingButton>
                 </div>
 
-                <div>{this.state.data}</div>
+                <Paper variant="outlined" className='text' sx={{ paddingX: 2 }}></Paper>
 
             </Stack>
         )

@@ -13,7 +13,7 @@ import { styled } from '@mui/material/styles';
 import Email from './Email';
 import Reword from './Reword';
 import Translate from './Translate';
-import { Paper } from '@mui/material';
+// import { Paper } from '@mui/material';
 
 
 const Div = styled('div')(({ theme }) => ({
