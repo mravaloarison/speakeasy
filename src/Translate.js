@@ -43,8 +43,6 @@ class Translate extends Component {
                             ...this.state.transcript,
                             this.state.snackMessg
                         ],
-                    }, () => {
-                        document.getElementById("Speech").value += this.state.snackMessg + " ";
                     });
 
                 } else {
@@ -86,12 +84,13 @@ class Translate extends Component {
     resetspeech = () => {
         document.getElementById("Speech").value = "";
         this.setState({
-            transcript: []
+            transcript: [],
+            snackMessg: ""
         });
     };
 
     render() {
-        const { snackMessg, snackState } = this.state;
+        const { snackMessg, snackState, transcript } = this.state;
 
         return (
           <Stack spacing={4}>
@@ -113,6 +112,7 @@ class Translate extends Component {
                   <TextField
                       id="Speech"
                       label="Recording goes here ..."
+                      value={transcript.join(" ")}
                       fullWidth multiline
                       rows={6}
                       variant="filled"
