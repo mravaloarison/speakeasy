@@ -1,113 +1,97 @@
 import { Component } from 'react';
-import LoadingButton from '@mui/lab/LoadingButton';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
+import { LoadingButton } from '@mui/lab';
+import { TextField, Typography, Card, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { gsap } from 'gsap';
 import { TextPlugin } from "gsap/TextPlugin";
 
-
 gsap.registerPlugin(TextPlugin);
 
-
 class Email extends Component {
-    state = {
-        data: [],
-        loading: false,
-    };
-    
-    
-    handleClick = () => {
-        this.setState({
-            loading: true,
-        }, this.SendIt);
-    };
+  state = {
+    data: [],
+    loading: false,
+  };
 
-    
-    SendIt = () => {
-        document.querySelector(".text").innerHTML = "";
+  handleClick = () => {
+    this.setState({ loading: true }, this.sendEmail);
+  };
 
-        const emailPrompt = document.getElementById("emailPrompt").value;
-        const formData = new FormData();
-        formData.append("email_prompt", emailPrompt);
-      
-        fetch("http://127.0.0.1:5000/generate-email", {
-            method: "POST",
-            body: formData,
-        })
-        .then(result => result.json())
-        .then(response => {
-            const filteredResponse = response.data.email_content.slice(2);
-            console.log(filteredResponse.split("\n").slice(2).join("\n"));
-            const textArray = filteredResponse.split("\n").slice(2);
+  sendEmail = () => {
+    document.querySelector(".text").innerHTML = "";
 
-            let count = 0;
-            textArray.forEach(e => {
-                document.querySelector(".text").innerHTML += `<p class="text-${count}"></p>`;
-                count++;
-            });
+    const emailPrompt = document.getElementById("emailPrompt").value;
+    const formData = new FormData();
+    formData.append("email_prompt", emailPrompt);
+  
+    fetch("http://127.0.0.1:5000/generate-email", {
+      method: "POST",
+      body: formData,
+    })
+      .then(response => response.json())
+      .then(response => {
+        const filteredResponse = response.data.email_content.slice(2);
+        const textArray = filteredResponse.split("\n").slice(2);
 
-            let masterTl = gsap.timeline();
-            for (let i = 0; i < count; i++) {
-                let tl = gsap.timeline();
-                tl.to(".text-"+i, {
-                    text: textArray[i],
-                    duration: textArray[i].length / 30
-                });
+        textArray.forEach((text, index) => {
+          document.querySelector(".text").innerHTML += `<p class="text-${index}"></p>`;
+        });
 
-                masterTl.add(tl);
-            }
+        let masterTl = gsap.timeline();
+        for (let i = 0; i < textArray.length; i++) {
+          let tl = gsap.timeline();
+          tl.to(`.text-${i}`, {
+            text: textArray[i],
+            duration: textArray[i].length / 30
+          });
 
-            this.setState({
-                loading: false,
-            })
-        })
-        .catch(err => console.log(err))
-    }
+          masterTl.add(tl);
+        }
 
-    render() {
-        return (
-            <Stack spacing={4}>
-                <div>
-                    <Typography variant="subtitle1 h2" component="h2" gutterBottom>
-                        Email App ✉️
-                    </Typography>
+        this.setState({ loading: false });
+      })
+      .catch(err => console.log(err))
+  }
 
-                    <Typography variant="body1" component="h2" gutterBottom>
-                        A writing assistant designed to help users compose emails quickly and efficiently. The app help users find the right words 
-                        and phrases to express their ideas clearly and concisely to make emails look professional and polished.
-                    </Typography>
-                </div>
-                <TextField
-                    id="emailPrompt"
-                    className='emailPrompt'
-                    label="Write your message"
-                    fullWidth multiline
-                    rows={6}
-                    variant="filled"
-                />
+  render() {
+    return (
+      <Stack spacing={4}>
+        <div>
+          <Typography variant="subtitle1 h2" component="h2" gutterBottom>
+            Email App ✉️
+          </Typography>
 
-                <div>
-                    {/* <Button variant="contained" endIcon={<SendIcon />} onClick={this.ComposeEmail}>Compose</Button> */}
-                    <LoadingButton
-                        size="small"
-                        onClick={this.handleClick}
-                        endIcon={<SendIcon />}
-                        loading={this.state.loading}
-                        loadingPosition="end"
-                        variant="contained"
-                    >
-                        <span>Compose</span>
-                    </LoadingButton>
-                </div>
+          <Typography variant="body1" component="h2" gutterBottom>
+            A writing assistant designed to help users compose emails quickly and efficiently. The app help users find the right words and phrases to express their ideas clearly and concisely to make emails look professional and polished.
+          </Typography>
+        </div>
+        <TextField
+          id="emailPrompt"
+          className='emailPrompt'
+          label="Write your message"
+          fullWidth
+          multiline
+          rows={6}
+          variant="filled"
+        />
 
-                <Card  variant="outlined" className='text' sx={{ paddingX: 2 }}></Card>
+        <div>
+          <LoadingButton
+            size="small"
+            onClick={this.handleClick}
+            endIcon={<SendIcon />}
+            loading={this.state.loading}
+            loadingPosition="end"
+            variant="contained"
+          >
+            <span>Compose</span>
+          </LoadingButton>
+        </div>
 
-            </Stack>
-        )
-    }
+        <Card variant="outlined" className='text' sx={{ paddingX: 2 }}></Card>
+      </Stack>
+    )
+  }
 };
 
 export default Email;
