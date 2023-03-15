@@ -56,3 +56,31 @@ def generate_email():
             "email_content": email_content
         }
     })
+
+
+@app.route("/translate", methods=["POST"])
+def translate():
+    try:
+        speech = request.form.get("speech")
+        language = request.form.get("language")
+
+    except:
+        return jsonify({
+            "status": "error",
+            "message": "Invalid request data"
+        })
+    
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt="Say " + speech + " properly in " + language,
+        max_tokens=2048,
+        temperature=0
+    )
+    translation = response["choices"][0]["text"]
+
+    return jsonify({
+        "status": "success",
+        "data": {
+            "translation": translation
+        }
+    })

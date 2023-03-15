@@ -65,6 +65,25 @@ class Translate extends Component {
     this.setState({ transcript: [], snackMessg: "" });
   };
 
+  translateSpeech = () => {
+    const speech = this.state.transcript.join(" ");
+    const language = "French";
+
+    const myform = new FormData();
+    myform.append("speech", speech);
+    myform.append("language", language);
+
+    fetch("http://127.0.0.1:5000/translate", {
+        method: "POST",
+        body: myform
+    })
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => console.log(error))
+  };
+
   render() {
     const { transcript, snackMessg, snackState } = this.state;
 
@@ -92,7 +111,7 @@ class Translate extends Component {
             <IconButton onClick={this.resetSpeech}><DeleteIcon /></IconButton>
             <Stack direction="row" spacing={2}>
               <IconButton onClick={this.startOrStopListening}><MicIcon /></IconButton>
-              <IconButton><SkipNext /></IconButton>
+              <IconButton onClick={this.translateSpeech}><SkipNext /></IconButton>
             </Stack>
           </Stack>
         </Stack>
