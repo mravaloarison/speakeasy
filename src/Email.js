@@ -2,7 +2,7 @@ import { Component } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
+import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import SendIcon from '@mui/icons-material/Send';
 import { gsap } from 'gsap';
@@ -27,6 +27,7 @@ class Email extends Component {
 
     
     SendIt = () => {
+        document.querySelector(".text").innerHTML = "";
 
         const emailPrompt = document.getElementById("emailPrompt").value;
         const formData = new FormData();
@@ -102,7 +103,7 @@ class Email extends Component {
                     </LoadingButton>
                 </div>
 
-                <Paper variant="outlined" className='text' sx={{ paddingX: 2 }}></Paper>
+                <Card  variant="outlined" className='text' sx={{ paddingX: 2 }}></Card>
 
             </Stack>
         )

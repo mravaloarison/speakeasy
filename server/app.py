@@ -11,6 +11,15 @@ CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 # Set the OpenAI API key
 openai.api_key = env.get("API_KEY")
 
+
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    response.headers['Access-Control-Allow-Methods'] = 'POST'
+    return response
+
+
 # Route for the home page
 @app.route("/")
 def home():
