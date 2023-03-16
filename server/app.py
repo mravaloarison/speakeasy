@@ -6,7 +6,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 # Allow cross-origin requests from http://localhost:3000
-CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+# CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 # Set the OpenAI API key
 openai.api_key = env.get("API_KEY")

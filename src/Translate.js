@@ -9,7 +9,8 @@ class Translate extends Component {
     transcript: [],
     listening: false,
     snackState: false,
-    snackMessg: ""
+    snackMessg: "",
+    translation: "",
   };
 
   recognition = null;
@@ -79,7 +80,9 @@ class Translate extends Component {
     })
         .then(response => response.json())
         .then(response => {
-            console.log(response)
+            this.setState({
+                translation: response,
+            })
         })
         .catch(error => console.log(error))
   };
@@ -89,16 +92,18 @@ class Translate extends Component {
 
     return (
       <Stack spacing={4}>
-        <Stack>
-          <Typography variant="subtitle1 h2" component="h2" gutterBottom>
-            Translate App 🤟
-          </Typography>
-          <Typography variant="body1" component="h2" gutterBottom>
+        <Typography variant='h4'>
+          Translate App
+        </Typography>
+        <Stack spacing={2}>
+          <Typography variant='h5'>Overview</Typography>
+          <Typography variant="p" component="p">
             With a powerful translation engine, this app makes it easy to translate any sentence or word with just a few clicks. Whether you're a business person, traveler, or student, it is the perfect tool to help you communicate effectively in any language.
           </Typography>
         </Stack>
 
         <Stack>
+          <Typography variant='h5' sx={{ paddingBottom: 3 }}>App</Typography>
           <TextField
             id="Speech"
             label="Recording goes here ..."

@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { LoadingButton } from '@mui/lab';
-import { TextField, Typography, Card, Stack } from '@mui/material';
+import { TextField, Typography, Stack } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { gsap } from 'gsap';
 import { TextPlugin } from "gsap/TextPlugin";
@@ -56,28 +56,29 @@ class Email extends Component {
   render() {
     return (
       <Stack spacing={4}>
-        <div>
-          <Typography variant="subtitle1 h2" component="h2" gutterBottom>
-            Email App ✉️
-          </Typography>
-
-          <Typography variant="body1" component="h2" gutterBottom>
+        <Typography variant='h4'>Email App</Typography>
+        <Stack spacing={2}>
+          <Typography variant='h5'>Overview</Typography>
+          <Typography variant="p" component="p">
             A writing assistant designed to help users compose emails quickly and efficiently. The app help users find the right words and phrases to express their ideas clearly and concisely to make emails look professional and polished.
           </Typography>
-        </div>
-        <TextField
-          id="emailPrompt"
-          className='emailPrompt'
-          label="Write your message"
-          fullWidth
-          multiline
-          rows={6}
-          variant="filled"
-        />
+        </Stack>
+        <Stack spacing={3}>
+          <Typography variant='h5'>App</Typography>
+          <TextField
+            id="emailPrompt"
+            className='emailPrompt'
+            label="Write your message"
+            fullWidth
+            multiline
+            rows={6}
+            variant="filled"
+          />
+        </Stack>
+
 
         <div>
           <LoadingButton
-            size="small"
             onClick={this.handleClick}
             endIcon={<SendIcon />}
             loading={this.state.loading}
@@ -87,8 +88,7 @@ class Email extends Component {
             <span>Compose</span>
           </LoadingButton>
         </div>
-
-        <Card variant="outlined" className='text' sx={{ paddingX: 2 }}></Card>
+        <div className='text'></div>
       </Stack>
     )
   }
