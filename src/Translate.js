@@ -74,7 +74,7 @@ class Translate extends Component {
     myform.append("speech", speech);
     myform.append("language", language);
 
-    fetch("http://127.0.0.1:5000/translate", {
+    fetch(process.env.FLASK_SERVER + "/translate", {
         method: "POST",
         body: myform
     })

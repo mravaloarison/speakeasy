@@ -25,7 +25,7 @@ class Reword extends Component {
         const formData = new FormData();
         formData.append("original_text", OriginalText);
 
-        fetch("http://127.0.0.1:5000/reword", {
+        fetch(process.env.FLASK_SERVER + "/reword", {
             method: "POST",
             body: formData
         })

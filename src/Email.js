@@ -24,7 +24,7 @@ class Email extends Component {
     const formData = new FormData();
     formData.append("email_prompt", emailPrompt);
   
-    fetch("http://127.0.0.1:5000/generate-email", {
+    fetch(process.env.FLASK_SERVER + "/generate-email", {
       method: "POST",
       body: formData,
     })
