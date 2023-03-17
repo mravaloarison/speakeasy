@@ -21,6 +21,7 @@ class Reword extends Component {
     }
 
     CallReword = () => {
+        document.getElementById("response").innerHTML = "";
         const OriginalText = document.getElementById("OriginalText").value;
         const formData = new FormData();
         formData.append("original_text", OriginalText);
