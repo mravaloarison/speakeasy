@@ -86,7 +86,7 @@ const App = () => {
       </Box>
 
       <Box sx={{ borderTop: 1, borderColor: 'divider', paddingY: 2 }}>
-        <Container sx={{ paddingX: { sm: '3rem' } }} maxWidth='md'>
+        <Container sx={{ paddingX: { xs: '1.5rem', sm: '3rem' } }} maxWidth='md'>
           <Typography variant='caption'>© Speak Easy 2023, by Mami</Typography>
         </Container>
       </Box>
