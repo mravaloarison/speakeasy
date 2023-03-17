@@ -24,7 +24,7 @@ class Email extends Component {
     const formData = new FormData();
     formData.append("email_prompt", emailPrompt);
   
-    fetch(process.env.FLASK_SERVER + "/generate-email", {
+    fetch("https://speak-easy.onrender.com/generate-email", {
       method: "POST",
       body: formData,
     })

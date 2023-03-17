@@ -25,7 +25,7 @@ class Reword extends Component {
         const formData = new FormData();
         formData.append("original_text", OriginalText);
 
-        fetch(`${process.env.FLASK_SERVER}/reword`, {
+        fetch("https://speak-easy.onrender.com/reword", {
             method: "POST",
             body: formData
         })

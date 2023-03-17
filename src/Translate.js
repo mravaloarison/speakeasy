@@ -74,7 +74,7 @@ class Translate extends Component {
     myform.append("speech", speech);
     myform.append("language", language);
 
-    fetch(process.env.FLASK_SERVER + "/translate", {
+    fetch("https://speak-easy.onrender.com/translate", {
         method: "POST",
         body: myform
     })
