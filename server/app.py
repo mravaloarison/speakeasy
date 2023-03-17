@@ -84,3 +84,29 @@ def translate():
             "translation": translation
         }
     })
+
+
+@app.route("/reword", methods=['POST'])
+def reword():
+    try:
+        original_text = request.form.get("original_text")
+    except:
+        return jsonify({
+            "status": "error",
+            "message": "Invalid request data"
+        })
+    
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt="Correct grammar, and reword perfectly this text: " + original_text,
+        max_tokens=2048,
+        temperature=0
+    )
+    reworded = response["choices"][0]["text"]
+
+    return jsonify({
+        "status": "success",
+        "data": {
+            "reworded": reworded
+        }
+    })

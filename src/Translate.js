@@ -97,7 +97,7 @@ class Translate extends Component {
         </Typography>
         <Stack spacing={2}>
           <Typography variant='h5'>Overview</Typography>
-          <Typography variant="p" component="p">
+          <Typography variant="body1">
             With a powerful translation engine, this app makes it easy to translate any sentence or word with just a few clicks. Whether you're a business person, traveler, or student, it is the perfect tool to help you communicate effectively in any language.
           </Typography>
         </Stack>

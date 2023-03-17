@@ -1,21 +1,67 @@
 import { Component } from "react";
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import PasswordIcon from '@mui/icons-material/Password';
+import { LoadingButton } from "@mui/lab";
+import gsap from "gsap";
+
 
 class Reword extends Component {
-    RewordSentence = () => {
-        alert("Reword!");
+    state = {
+        loading: false,
     }
+
+    RewordSentence = () => {
+        this.setState({
+            loading: true,
+        }, () => {
+            this.CallReword();
+        })
+    }
+
+    CallReword = () => {
+        const OriginalText = document.getElementById("OriginalText").value;
+        const formData = new FormData();
+        formData.append("original_text", OriginalText);
+
+        fetch("http://127.0.0.1:5000/reword", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(response => {
+                console.log(response.data.reworded.slice(2));
+                const res = response.data.reworded.slice(2);
+                const resArr = res.split('\n');
+
+                resArr.forEach((text, index) => {
+                    document.getElementById("response").innerHTML += `<p class='res-${index}'></p>`
+                });
+
+                const masterTl = gsap.timeline();
+                for (let i in resArr) {
+                    let tl = gsap.timeline();
+                    tl.to(`.res-${i}`, {
+                        text: resArr[i],
+                        duration: resArr[i].length / 30,
+                    });
+
+                    masterTl.add(tl);
+                };
+
+                this.setState({ loading: false })
+            })
+            .catch(error => console.log(error));
+    }
+
     render() {
         return (
             <Stack spacing={4}>
                 <Typography variant="h4">Reword App</Typography>
                 <Stack spacing={2}>
                     <Typography variant="h5">Overview</Typography>
-                    <Typography variant="p" component="p">
+                    <Typography variant="body1">
                         A writing assistant designed to help users compose emails quickly and efficiently. The app help users find the right words 
                         and phrases to express their ideas clearly and concisely to make emails look professional and polished.
                     </Typography>
@@ -32,9 +78,20 @@ class Reword extends Component {
 
                 </Stack>
 
+
                 <div>
-                    <Button variant="contained" endIcon={<PasswordIcon />} onClick={this.RewordSentence}>Reword</Button>
+                    <LoadingButton
+                        onClick={this.RewordSentence}
+                        endIcon={<PasswordIcon />}
+                        loading={this.state.loading}
+                        loadingPosition="end"
+                        variant="contained"
+                    >
+                        <span>Reword</span>
+                    </LoadingButton>
                 </div>
+
+                <div id="response"></div>
 
             </Stack>
         )

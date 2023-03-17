@@ -59,7 +59,7 @@ class Email extends Component {
         <Typography variant='h4'>Email App</Typography>
         <Stack spacing={2}>
           <Typography variant='h5'>Overview</Typography>
-          <Typography variant="p" component="p">
+          <Typography variant="body1">
             A writing assistant designed to help users compose emails quickly and efficiently. The app help users find the right words and phrases to express their ideas clearly and concisely to make emails look professional and polished.
           </Typography>
         </Stack>
