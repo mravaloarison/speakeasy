@@ -28,8 +28,7 @@ The application consists of three main features:
 ### Installing
 1. Clone the repository:
 
-bash
-```sh
+```bash
 git clone https://github.com/mravaloarison/speakeasy.git
 cd speakeasy
 ```
@@ -64,4 +63,4 @@ This will start the React front-end and Flask back-end servers concurrently. You
 Mami Ravaloarison: [mravaloarison](https://github.com/mravaloarison)
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE.mc]() file for details
+This project is licensed under the MIT License - see the [LICENSE.md]() file for details
